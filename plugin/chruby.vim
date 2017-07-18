@@ -12,6 +12,6 @@ command! -bang -nargs=? -complete=customlist,chruby#rubies_list
 if exists('g:chruby_autoload')
   augroup __chruby-autoload
     autocmd!
-    autocmd VimEnter * execute chruby#match('auto')
+    autocmd VimEnter * call chruby#match('auto')
   augroup END
 endif
