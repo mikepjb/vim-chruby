@@ -57,6 +57,13 @@ function! chruby#reset() abort
   let $PATH = chruby#cxe(l:path)
 endfunction
 
+function! chruby#error(message) abort
+  redraw
+  echohl ErrorMsg
+  echomsg a:message
+  echohl None
+endfunction
+
 " Use the specified `a:path` Ruby version and set `$RUBYOPT` from `a:rubyopt`.
 " Calls `chruby#reset` first. This will set `$RUBY_ROOT`, `$RUBYOPT`, `$PATH`,
 " `$RUBY_ENGINE`, `$RUBY_VERSION`, and `$GEM_ROOT`. It will usually set
@@ -65,7 +72,7 @@ endfunction
 " If `a:path/bin/ruby` is not executable, an error is printed.
 function! chruby#use(path, rubyopt) abort
   if !executable(a:path . '/bin/ruby')
-    echoerr 'chruby: ' . a:path . '/bin/ruby is not executable'
+    call chruby#error('chruby: ' . a:path . '/bin/ruby is not executable')
     return v:false
   endif
 
@@ -154,7 +161,7 @@ function! chruby#match(...) abort
   endif
 
   if l:index == -1
-    echoerr 'chruby: unknown Ruby ' . l:version
+    call chruby#error('chruby: unknown Ruby ' . l:version)
     return v:false
   endif
 
